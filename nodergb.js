@@ -35,7 +35,7 @@ fs.writeFile('rgb_new.html', markup, (err) => {
         if (err) throw err;
         console.log('The file has been saved yeah!');
       });
-fs.writeFile('rgb_new.txt', newdata.join('",""'), (err) => {
+fs.writeFile('rgb_new.txt', newdata.join('","'), (err) => {
   if (err) throw err;
     console.log('The file has been saved yeah!');
  });
