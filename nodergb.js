@@ -17,7 +17,7 @@ for(let i=0;i<dimension;i++){
     temp = temp.join(',');
     newdata.push(temp);
 }
-//console.log(newdata);
+console.log(newdata);
 
 var createPixel = (rgb) => {
   return '<span style="background-color:rgba('+rgb+')"></span>';
@@ -33,5 +33,9 @@ markup+='</div>';
 markup+= '</body></html>';
 fs.writeFile('rgb_new.html', markup, (err) => {
         if (err) throw err;
-        console.log('The file has been saved!');
+        console.log('The file has been saved yeah!');
       });
+fs.writeFile('rgb_new.txt', newdata.join('],['), (err) => {
+  if (err) throw err;
+    console.log('The file has been saved yeah!');
+ });
