@@ -11,7 +11,8 @@ var iter = 0;
 for(let i=0;i<dimension;i++){
     var temp = [];
     for(let j=0;j<4;j++){
-        temp.push(rawImageData.data[iter])
+        if(j<3)
+          temp.push(rawImageData.data[iter])
         iter++;
     }
     temp = temp.join(',');
@@ -35,7 +36,7 @@ fs.writeFile('rgb_new.html', markup, (err) => {
         if (err) throw err;
         console.log('The file has been saved yeah!');
       });
-fs.writeFile('rgb_new.txt', newdata.join('","'), (err) => {
+fs.writeFile('rgb_new.txt', newdata.join(','), (err) => {
   if (err) throw err;
     console.log('The file has been saved yeah!');
  });
