@@ -34,19 +34,23 @@ for(let i=0;i<dimension;i++){
     var temp = [];
     for(let j=0;j<4;j++){
         if(j<3)
-          newdata.push(rawImageData.data[iter])
+          temp.push(rawImageData.data[iter])
         iter++;
     }
     //temp = temp.join(',');
-    //newdata.push(temp);
+    //console.log(temp);
+    newdata.push(temp);
 }
+//console.log(newdata[0]);
 let temp_arr = [];
 let count = 1;
 for(let i=0;i<newdata.length;i++){
-    temp_arr.push(newdata[i]);
-    if(count==packet_size*3){
+    temp_arr.push(rgbToHex(newdata[i]));
+    if(count==packet_size){
         //console.log(temp_arr.length);
-        finaldata.push(temp_arr.join(","));
+        let flat = temp_arr.join("");
+        //console.log(flat);
+        finaldata.push(flat);
         temp_arr = [];
         count=0;
     }
@@ -58,22 +62,31 @@ var createPixel = (rgb) => {
   return '<span style="background-color:rgba('+rgb+')"></span>';
 }
 //console.log(jpegImageData);
-var markup = "<html><body><style>div{overflow:hidden;}span{border:2px solid black;width:5px;height:5px;float:left;}</style><div>";
-newdata.map((rgb,index)=>{
-  if(index%rawImageData.width == 0)
-    markup+='</div><div>';
-  markup+=createPixel(rgb);
-})
-markup+='</div>';
-markup+= '</body></html>';
-fs.writeFile('rgb_new.html', markup, (err) => {
-        if (err) throw err;
-        console.log('The file has been saved yeah!');
-      });
-fs.writeFile('rgb_new.txt', newdata.join(','), (err) => {
-  if (err) throw err;
-    console.log('The file has been saved yeah!');
- });
+// var markup = "<html><body><style>div{overflow:hidden;}span{border:2px solid black;width:5px;height:5px;float:left;}</style><div>";
+// newdata.map((rgb,index)=>{
+//   if(index%rawImageData.width == 0)
+//     markup+='</div><div>';
+//   markup+=createPixel(rgb);
+// })
+// markup+='</div>';
+// markup+= '</body></html>';
+// fs.writeFile('rgb_new.html', markup, (err) => {
+//         if (err) throw err;
+//         console.log('The file has been saved yeah!');
+//       });
+// fs.writeFile('rgb_new.txt', newdata.join(','), (err) => {
+//   if (err) throw err;
+//     console.log('The file has been saved yeah!');
+//  });
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(rgb) {
+    return componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+}
 
 
 //console.log(newdata[0]);
@@ -84,9 +97,8 @@ setTimeout(function(){
     inter = setInterval(function(){
         if(iter>=finaldata.length-1)
             clearInterval(inter);
-        //console.log(finaldata[iter]);
+        console.log(finaldata[iter]);
         myPort.write(finaldata[iter]+"\n");
         iter++;
-
     },50);
 },1000);
